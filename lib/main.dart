@@ -19,10 +19,10 @@ class _BMIPageState extends State<BMIPage> {
     setState(() {
     bmical = (weight * 10000 )/ (height * height);
     if(bmical < 10){
-      status = "kya hai pta nhi";
+      status = "Eat more you are very thin";
     }
     else if(bmical > 28){
-      status = "bhai khaya km kr";
+      status = "Eat less you are overweight ";
     }
     });
     // String a = "34345353.8758";
