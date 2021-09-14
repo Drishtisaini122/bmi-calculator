@@ -22,7 +22,7 @@ class _BMIPageState extends State<BMIPage> {
       status = "Eat more you are very thin";
     }
     else if(bmical > 28){
-      status = "Eat less you are overweight ";
+      status = " Stop...Eat less you are overweight ";
     }
     });
     // String a = "34345353.8758";
