@@ -1,94 +1,105 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:avatar_glow/avatar_glow.dart';
+import 'calculation.dart';
 
-void main() => runApp(BMIPage());
-
-class BMIPage extends StatefulWidget {
-  BMIPage({Key? key}) : super(key: key);
-
-  @override
-  _BMIPageState createState() => _BMIPageState();
+void main() {
+  runApp(MyApp());
 }
 
-class _BMIPageState extends State<BMIPage> {
-  TextEditingController heightincm = TextEditingController();
-  TextEditingController weightinkg = TextEditingController();
-  double bmical = 0.00;
-  String status = "";
+class MyApp extends StatefulWidget {
+  MyApp({Key? key}) : super(key: key);
 
-  void calBmi(double height, double weight){
-    setState(() {
-    bmical = (weight * 10000 )/ (height * height);
-    if(bmical < 10){
-      status = "Eat more you are very thin";
-    }
-    else if(bmical > 28){
-      status = " Stop...Eat less you are overweight ";
-    }
-    });
-    // String a = "34345353.8758";
-    // double b = double.parse(a);
-  }
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        
-        
-        body: Center(
-          child: Container(
-            decoration:BoxDecoration(
-          gradient:LinearGradient(
-            colors:[Colors.blue,Colors.green]
+      debugShowCheckedModeBanner: false,
+      home: Homepage(),
+    );
+  }
+}
 
-          )
-        ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("BMI Calculator", style:TextStyle(color:Colors.black,fontSize:50,
-                fontFamily:"Merriweather"),),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: 100 ,
-                      child: TextField(
-                        controller: heightincm,
-                        decoration: InputDecoration(
-                          hintText: "Height (in cm)",
-                          hintStyle: TextStyle(color:Colors.black,fontSize:20,
-                fontFamily:"Merriweather"),
-                        ),
-                      )),
-                    Container(
-                      width: 100 ,
-                      child: TextField(
-                        controller: weightinkg,
-                         decoration: InputDecoration(
-                          hintText: "Weight (in kg)",
-                          hintStyle: TextStyle(color:Colors.black,fontSize:20,
-                fontFamily:"Merriweather"),
-                        ),
-                      )),
-                  ],
-                ),
-                RaisedButton( onPressed: (){
-                  calBmi(double.parse(heightincm.text),double.parse(weightinkg.text));
-                  
-                } ,
-                color:Colors.green,
-                 child: Text("Calculate BMI", style:TextStyle(color:Colors.black,fontSize:20,
-                fontFamily:"Merriweather"),)
-                 ),
-                Text(bmical.toString()),
-                Text(status)
-                
-              ],
+class Homepage extends StatefulWidget {
+  Homepage({Key? key}) : super(key: key);
+
+  @override
+  _HomepageState createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  @override
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                    "https://photographylife.com/wp-content/uploads/2021/05/Texture-of-rough-water.jpg"),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
+          Container(
+              child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: AvatarGlow(
+                    endRadius: 150,
+                    shape: BoxShape.circle,
+                    glowColor: Colors.white,
+                    duration: Duration(seconds: 3),
+                    repeat: true,
+                    repeatPauseDuration: Duration(seconds: 1),
+                    showTwoGlows: true,
+                    startDelay: Duration(seconds: 1),
+                    child: Container(
+                      height: 200,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/Body.png"),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  "Body Mass Index Calculator",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(60.0),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => BMIPage()));
+                      },
+                      child: Text(
+                        "Calculate BMI",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.black,
+                        padding: EdgeInsets.all(15),
+                      )),
+                )
+              ],
+            ),
+          ))
+        ],
       ),
     );
   }
